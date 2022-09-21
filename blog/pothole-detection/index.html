@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head>
+  
+                           
+     
+
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.101.0" />
+<title>Train a Custom Object Detection Model using Mask RCNN | Samden Lepcha</title>
+
+
+<meta property="twitter:site" content="@Samden_Lepcha">
+<meta property="twitter:creator" content="@Samden_Lepcha">
+
+
+
+
+
+
+
+  
+    
+  
+<meta name="description" content="A complete guide from installation and training to deploying a custom trained object detection model in a webapp.">
+
+
+<meta property="og:site_name" content="Samden Lepcha">
+<meta property="og:title" content="Train a Custom Object Detection Model using Mask RCNN | Samden Lepcha">
+<meta property="og:description" content="A complete guide from installation and training to deploying a custom trained object detection model in a webapp." />
+<meta property="og:type" content="page" />
+<meta property="og:url" content="https://samdenlepcha.github.io/blog/pothole-detection/" />
+<meta property="og:locale" content="en">
+
+
+
+
+    
+        <meta property="og:image" content="https://samdenlepcha.github.io/blog/pothole-detection/featured.jpg" >
+        <meta property="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https://samdenlepcha.github.io/blog/pothole-detection/featured.jpg" >
+    
+    
+  <meta itemprop="name" content="Train a Custom Object Detection Model using Mask RCNN">
+<meta itemprop="description" content="A complete guide from installation and training to deploying a custom trained object detection model in a webapp.
+Background According to Wikipedia “A pothole is a depression in a road surface, usually asphalt pavement, where traffic has removed broken pieces of the pavement”. Edmonton the “self proclaimed pothole capital” in Alberta, Canada reportedly spends $4.8 million on 450,000 potholes annually, as of 2015. In India every year approximately 1100 lives are lost to accidents caused by potholes source."><meta itemprop="datePublished" content="2019-07-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2019-07-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2290"><meta itemprop="image" content="https://samdenlepcha.github.io/blog/pothole-detection/featured.jpg">
+<meta itemprop="keywords" content="Flask,TensorFlow,Python," />
+  
+  
+  <!--[if IE]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <link rel="shortcut icon" href="/img/intials.ico" type="image/x-icon">
+  <link rel="icon" href="/img/intials.ico" type="image/x-icon">
+  
+  
+  <link rel="stylesheet" href="/style.main.min.b5428db38f806d6b43f5392385560050f899eede81a30fe0d5f2840ec2add532.css" integrity="sha256-tUKNs4&#43;AbWtD9TkjhVYAUPiZ7t6Bow/g1fKEDsKt1TI=" media="screen">
+  
+  
+  <script src="/panelset.min.dca42702d7daf6fd31dc352efd2bcf0e4ac8c05ccaa58d9293f6177462de5d5f.js" type="text/javascript"></script>
+  
+  
+  <script src="/main.min.4bae73d1c7e568d3145f3a1c13f32e0f09a60329a9ce0a52346a1ec89bbcf411.js" type="text/javascript"></script>
+</head>
+<body>
+      <div class="grid-container single">
+<header class="site-header pt4 pb2 mb4 bb b--transparent ph5 headroom z-max" role="banner">
+  <nav class="site-nav db dt-l w-100" role="navigation">
+    <a class="site-brand db dtc-l v-mid link no-underline w-100 w-33-l tc tl-l" href="https://samdenlepcha.github.io/" title="Home">
+      <img src="/img/logo.png" class="dib db-l h2 w-auto" alt="Samden Lepcha">
+    </a>
+    <div class="site-links db dtc-l v-mid w-100 w-47-l tc tr-l mt3 mt0-l ttu tracked">
+      
+        
+        
+        
+      <a class="link f6 f5-l dib pv1 ph2 " href="/about/" title="About Blogophonic">About</a>
+      
+        
+        
+        
+      <a class="link f6 f5-l dib pv1 ph2 active" href="/blog/" title="Blog">Blog</a>
+      
+        
+        
+        
+      <a class="link f6 f5-l dib pv1 ph2 " href="/project/" title="Project Portfolio">Projects</a>
+      
+        
+        
+        
+      <a class="link f6 f5-l dib pv1 ph2 " href="/contact/" title="Contact form">Contact</a>
+      
+      
+    </div>
+  </nav>
+</header>
+
+<main class="page-main pa4" role="main">
+  <section class="page-content mw7 center">
+    <article class="post-content pa0 ph4-l">
+      <header class="post-header">
+        <h1 class="f1 lh-solid measure-narrow mb3 fw4">Train a Custom Object Detection Model using Mask RCNN</h1>
+        
+        <p class="f6 measure lh-copy mv1">By Samden Lepcha in <a href="https://samdenlepcha.github.io/categories/data-science">Data Science</a>  <a href="https://samdenlepcha.github.io/categories/computer-vision">Computer Vision</a> </p>
+        <p class="f7 db mv0 ttu">July 1, 2019</p>
+
+      
+
+      </header>
+      <section class="post-body pt5 pb4">
+        <p><img src="featured.jpg" alt="Pothole Image"></p>
+<p>A complete guide from installation and training to deploying a custom trained object detection model in a webapp.</p>
+<hr>
+
+
+
+
+<h3 id="background">Background
+  <a href="#background"><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0h24v24H0z" fill="currentColor"></path>
+      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"></path>
+    </svg></a>
+</h3>
+<p>According to Wikipedia “A pothole is a depression in a road surface, usually asphalt pavement, where traffic has removed broken pieces of the pavement”. Edmonton the “self proclaimed pothole capital” in Alberta, Canada reportedly spends $4.8 million on 450,000 potholes annually, as of 2015. In India every year approximately 1100 lives are lost to accidents caused by potholes source. Ordinary citizens do not have the means of communicating or reporting the bad roads to the concerned authorities while the authorities lay unaware of the situation.</p>
+<p>Therefore, several organizations have been trying to develop tools (like web apps) where the citizens can report the potholes to the concerned authorities. There are several hackathons that have taken place with this project in mind as one of the objectives. Seeing this as a growing concern, in this project to address this problem the aim is to develop a simple interface that uses the state of the art object detection technology to detect potholes in real time and report them using Google Maps. This article will take you through the steps required to build your very own pothole detection system. The deployment medium for this project will be on smartphones which are used by 500 million+ people in India according to Newzoo’s 2019 Global Mobile Market Report.</p>
+<p>Tools Used:</p>
+<ul>
+<li>Python 3.6+</li>
+<li>Tensorflow Object Detection API</li>
+<li>Pixel Annotation Tool</li>
+<li>Anaconda Package Manager</li>
+<li>Flask</li>
+</ul>
+<p>The workflow of the Project will be as follows:</p>
+<ul>
+<li>Environment Setup</li>
+<li>Dataset Gathering</li>
+<li>Model Training</li>
+<li>Deployment with Flask</li>
+<li>Results</li>
+</ul>
+
+
+
+
+<h3 id="anaconda-environment-setup">Anaconda Environment Setup
+  <a href="#anaconda-environment-setup"><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0h24v24H0z" fill="currentColor"></path>
+      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"></path>
+    </svg></a>
+</h3>
+<p>In the beginning, we will set up a new Anaconda environment and install all the necessary packages required for this project. Anaconda is a popular python package manager alongside “pip”. If you have not installed prior to this project please install it using the below links.</p>
+<p>It is a fairly straight forward installation and should not take long. You can install the Miniconda if you have some experience using the command line but if you want the GUI you can install the Anaconda Navigator with all the additional packages (this will take longer to install).</p>
+<p>After this open “Anaconda Prompt” from your start menu and follow the rest of the installation instructions:</p>
+<ol>
+<li>Create the conda environment.</li>
+</ol>
+<pre tabindex="0"><code>(base) C:\Users&gt;conda create --name pothole python=3.6
+</code></pre><ol start="2">
+<li>Activate the environment and upgrade pip.</li>
+</ol>
+<pre tabindex="0"><code>(base) C:\Users&gt;activate pothole
+(pothole) C:\Users&gt;python -m pip install --upgrade pip
+</code></pre><ol start="3">
+<li>Install the other necessary packages by issuing the following commands:</li>
+</ol>
+<pre tabindex="0"><code>(pothole) C:\Users&gt;conda install -c anaconda protobuf
+(pothole) C:\Users&gt;pip install pillow
+(pothole) C:\Users&gt;pip install lxml
+(pothole) C:\Users&gt;pip install Cython
+(pothole) C:\Users&gt;pip install contextlib2
+(pothole) C:\Users&gt;pip install jupyter
+(pothole) C:\Users&gt;pip install matplotlib
+(pothole) C:\Users&gt;pip install opencv-python
+(pothole) C:\Users&gt;pip install labelme
+(pothole) C:\Users&gt;pip install tensorflow-gpu==1.15.2
+</code></pre><ol start="4">
+<li>Clone or download the tensorflow object detection api repository from Github. For the purpose of this project, we are using tensorflow version 1.15.2. Note Always make sure the tensorflow version installed and the tensorflow object detection api repository version is the same. Run the following command or download this repository manually.</li>
+</ol>
+<pre tabindex="0"><code>(pothole) C:\Users&gt;git clone https://github.com/tensorflow/models.git
+</code></pre><p>Place these folders in a folder called “models”. You can place this “models” folder in a directory of your choice.</p>
+<ol start="5">
+<li>Configure the PYTHONPATH environment variable and install the COCO api:</li>
+</ol>
+<pre tabindex="0"><code>(pothole) C:\Users&gt;set PYTHONPATH=C:\models;C:\models\research;C:\models\research\slim
+(pothole) C:\Users&gt;pip install git+https://github.com/philferriere/cocoapi.git#subdirectory=PythonAPI
+</code></pre><ol start="6">
+<li>Compile Protobufs and run setup.py</li>
+</ol>
+<p>In the Anaconda Prompt change directories to \models\research directory</p>
+<pre tabindex="0"><code>(pothole) C:\Users&gt;cd C:\models\research
+</code></pre><p>Run the following lines of code:</p>
+<pre tabindex="0"><code>protoc --python_out=. .\object_detection\protos\anchor_generator.proto .\object_detection\protos\argmax_matcher.proto .\object_detection\protos\bipartite_matcher.proto .\object_detection\protos\box_coder.proto .\object_detection\protos\box_predictor.proto .\object_detection\protos\eval.proto .\object_detection\protos\faster_rcnn.proto .\object_detection\protos\faster_rcnn_box_coder.proto .\object_detection\protos\grid_anchor_generator.proto .\object_detection\protos\hyperparams.proto .\object_detection\protos\image_resizer.proto .\object_detection\protos\input_reader.proto .\object_detection\protos\losses.proto .\object_detection\protos\matcher.proto .\object_detection\protos\mean_stddev_box_coder.proto .\object_detection\protos\model.proto .\object_detection\protos\optimizer.proto .\object_detection\protos\pipeline.proto .\object_detection\protos\post_processing.proto .\object_detection\protos\preprocessor.proto .\object_detection\protos\region_similarity_calculator.proto .\object_detection\protos\square_box_coder.proto .\object_detection\protos\ssd.proto .\object_detection\protos\ssd_anchor_generator.proto .\object_detection\protos\string_int_label_map.proto .\object_detection\protos\train.proto .\object_detection\protos\keypoint_box_coder.proto .\object_detection\protos\multiscale_anchor_generator.proto .\object_detection\protos\graph_rewriter.proto .\object_detection\protos\calibration.proto .\object_detection\protos\flexible_grid_anchor_generator.proto
+</code></pre><p>If it gives an error that the protobuf file could not be found run this after:</p>
+<pre tabindex="0"><code>protoc object_detection/protos/*.proto --python_out=.
+</code></pre><p>Finally, we need to run the following commands:</p>
+<pre tabindex="0"><code>(pothole) C:\models\research&gt; python setup.py build
+(pothole) C:\models\research&gt; python setup.py install
+</code></pre><ol start="8">
+<li>You can test if everything is working out by running the IPython Notebook present in the object_detection folder called “object_detection_tutorial.ipynb”.</li>
+</ol>
+<pre tabindex="0"><code>(pothole) C:\models\research&gt;cd object_detection
+(pothole) C:\models\research\object_detection&gt;jupyter notebook object_detection_tutorial.ipynb
+</code></pre>
+
+
+
+<h3 id="dataset-gathering">Dataset Gathering
+  <a href="#dataset-gathering"><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0h24v24H0z" fill="currentColor"></path>
+      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"></path>
+    </svg></a>
+</h3>
+<p>As always, at the beginning of any Data Science or AI Project after the problem statement has been identified we move on to gathering the data or in this case images for training.</p>
+<p>To train a robust model we need to use a lot of pictures but with variation as well. That means the potholes must be present at various angles or shapes so that our model does not lean on to one variation or in other words overfits and does not generalize for other images.</p>
+<p>You can use the images that you have taken personally or download them from the Internet like me. For this project, the idea is to detect potholes so we would not be segmenting them out based on severity but that does leave something for the future scope as well. The following data sources were used for building this project:</p>
+<ul>
+<li>
+<a href="https://www.kaggle.com/datasets/atulyakumar98/pothole-detection-dataset?select=potholes" target="_blank" rel="noopener">Kaggle</a></li>
+<li>
+<a href="https://www.researchgate.net/publication/282807920_Dataset_of_images_used_for_pothole_detection" target="_blank" rel="noopener">Research Gate</a></li>
+</ul>
+<figure>
+  <img src="index_files/dataset.jpeg" width="1440">
+  <center>Images from Dataset by Author.</center>
+</figure> 
+<p>We need to resize the images so that the model can be trained using these resized images like 800 x 600 in this project (Unless you have unlimited GPU compute power). Use either the command prompt or anaconda prompt or any other IDE to run 
+<a href="https://github.com/SamdenLepcha/Pothole-Detection-With-Mask-R-CNN/blob/master/DatasetCreation.py" target="_blank" rel="noopener">this script</a>. For example in Anaconda Prompt:</p>
+<pre tabindex="0"><code>(pothole) C:\Users&gt; python DatasetCreation.py
+</code></pre>
+
+
+
+<h3 id="data-labeling">Data Labeling
+  <a href="#data-labeling"><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0h24v24H0z" fill="currentColor"></path>
+      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"></path>
+    </svg></a>
+</h3>
+<p>Now that we have gathered the dataset we need to label the images so that the model understands what is a pothole. To label the images we need a labeling software.</p>
+<p>For the purpose of the project, I have used labelme as it is fairly simple to use. In your anaconda environment type “labelme” and the software should open up like below.</p>
+<pre tabindex="0"><code>(pothole) C:\Users&gt;labelme
+</code></pre><p>Open your image from your directory and click on Create Polygon and start labeling your images. Labelme saves your labels as json files with the same name as the image name. Place the json in the same directory as your images. An example of Labelme(right) along with Pixel Annotation Tool(left) is shown below. For this project I have labeled 400 images.</p>
+<figure>
+  <img src="index_files/labeling.png" width="1440">
+  <center>Images from Dataset by Author.</center>
+</figure> 
+
+
+
+
+<h3 id="model-training">Model Training
+  <a href="#model-training"><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0h24v24H0z" fill="currentColor"></path>
+      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"></path>
+    </svg></a>
+</h3>
+<ol>
+<li>Create TFRecords:</li>
+</ol>
+<p>After labeling our entire dataset we now have to generate TFRecords which serves as input for our model training. But before that we need to convert the json labelme labels into COCO format. I have taken the script provided by Gilber Tanner in his tutorial to perform this. You can also find this in my Github Repository labeled 
+<a href="https://github.com/SamdenLepcha/Pothole-Detection-With-Mask-R-CNN/blob/master/place_in_object_detection/images/labelme2coco.py" target="_blank" rel="noopener">“labelme2coco.py”</a>. Download this and place it onto the directory where your Train/ Test images are located. Now run the following commands:</p>
+<pre tabindex="0"><code>(pothole) C:\Users\models\research\object_detection\images&gt;python labelme2coco.py train --output train.json
+(pothole) C:\Users\models\research\object_detection\images&gt;python labelme2coco.py test --output test.json
+</code></pre><p>Now that the train/test data is in the COCO format we can now create the TFRecords using the create_coco_tf_record.py also created by Gilber Tanner. 
+<a href="https://github.com/SamdenLepcha/Pothole-Detection-With-Mask-R-CNN/blob/master/place_in_object_detection/create_coco_tf_record.py" target="_blank" rel="noopener">This script</a> also needs to be placed and run from the object_detection folder.</p>
+<pre tabindex="0"><code>python create_coco_tf_record.py --logtostderr --train_image_dir=images/train --test_image_dir=images/test --train_annotations_file=images/train.json --test_annotations_file=images/test.json --include_masks=True --output_dir=./
+</code></pre><p>You should find train.record and test.record in your object_detection folder.</p>
+<ol start="2">
+<li>Creating Label Map</li>
+</ol>
+<p>The label map links class names to ID numbers. Use a text editor like Sublime Text to create a “labelmap.pbtxt” and store it inside object_detection/training folder. Inside the folder write the following:</p>
+<pre tabindex="0"><code>item {
+  id: 1
+  name: &#39;Pothole&#39;
+}
+</code></pre><p>You can define as much as you want depending on the classes you want to detect but for the purpose of this project we are only interested in detecting potholes.</p>
+<p>This id should match with the id mentioned in your train.json and test.json files. Notice how it one number greater i.e here it is id: 0 but we mention id:1 in the labelmap file.</p>
+<pre tabindex="0"><code>&#34;categories&#34;: [
+    {
+        &#34;supercategory&#34;: &#34;Pothole&#34;,
+        &#34;id&#34;: 0,
+        &#34;name&#34;: &#34;Pothole&#34;
+    },
+],
+</code></pre><ol start="3">
+<li>Creating Training Configuration File:</li>
+</ol>
+<p>Now we need to create a training configuration file. From the 
+<a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md" target="_blank" rel="noopener">tensorflow model zoo</a> there are a variety of tensorflow models available for Mask RCNN but for the purpose of this project we are gonna use the `mask_rcnn_inception_v2_coco](download.tensorflow.org/models/object_detection/mask_rcnn_inception_v2_coco_2018_01_28.tar.gz) because of it’s speed. Download this and place it onto the object_detection folder. You can find the mask_rcnn_inception_v2_coco.config file inside the samples/config folder. Copy this folder and place it into object_detection/training folder. Now we have to make the following changes to this config file:</p>
+<ul>
+<li>Line 10: Change num_classes to the number of different objects you want the classifier to detect.(1 in this project’s case)</li>
+<li>Line 126: Change fine_tune_checkpoint to:</li>
+</ul>
+<pre tabindex="0"><code>fine_tune_checkpoint: &#34;&lt;path&gt;/models/research/object_detection/mask_rcnn_inception_v2_coco_2018_01_28/model.ckpt&#34;
+</code></pre><ul>
+<li>Line 142: Change input_path to the path of the train.records file:</li>
+</ul>
+<pre tabindex="0"><code>input_path: &#34;&lt;path&gt;/models/research/object_detection/train.record&#34;
+</code></pre><ul>
+<li>Line 158: Change input_path to the path of the test.records file:</li>
+</ul>
+<pre tabindex="0"><code>input_path: &#34;&lt;path&gt;/models/research/object_detection/test.record&#34;
+</code></pre><ul>
+<li>Line 144 and 160: Change label_map_path to the path of the label map:</li>
+</ul>
+<pre tabindex="0"><code>label_map_path: &#34;&lt;path&gt;/models/research/object_detection/training/labelmap.pbtxt&#34;
+</code></pre><ul>
+<li>Line 150: change num_example to the number of images in your test folder.</li>
+</ul>
+<ol start="4">
+<li>Training the Model:</li>
+</ol>
+<p>Run the following command to start the training of the model from the object_detection folder:</p>
+<pre tabindex="0"><code>python legacy/train.py --train_dir=training --pipeline_config_path=training/mask_rcnn_inception_v2_coco.config
+</code></pre><p>After every interval the model saves the checkpoints in the training folder. It is a good idea to let it train till the loss is below 0.05. The time taken will depend on how powerful your GPU is.</p>
+<p>You can view the progress of your model by opening another Anaconda Prompt Window and changing the directory to the object_detection folder and typing the following command:</p>
+<pre tabindex="0"><code>(pothole) C:\models\research\object_detection&gt;tensorboard --logdir=training
+</code></pre><p>This will create a webpage on your local machine YourPCName:6006, which can be viewed through a web browser. The TensorBoard page provides information and graphs that show how the training is progressing.</p>
+<figure>
+  <img src="index_files/tensorboard.png" width="1440">
+  <center>Tensorboard Example (Image by Author).</center>
+</figure> 
+<p>You can stop the training by pressing Ctrl+C while in the command prompt window. I recommend stopping after it has created the checkpoint in your folder this usually is done every 5–10 mins depending on your compute power. The checkpoint at the highest number of steps will be used to generate the frozen inference graph.</p>
+<ol start="5">
+<li>Exporting Inference Graph</li>
+</ol>
+<p>Create a folder called “inference_graph” inside object_detection folder. Now we can create the frozen inference graph(.pb file) inside this folder. To do this issue the following command:</p>
+<pre tabindex="0"><code>python export_inference_graph.py --input_type=image_tensor --pipeline_config_path=training/mask_rcnn_inception_v2_coco.config --trained_checkpoint_prefix=training/model.ckpt-2194 --output_directory=inference_graph
+</code></pre><p>This frozen inference graph is the object detection classifier.</p>
+<ol start="6">
+<li>Testing the newly trained classifier</li>
+</ol>
+<p>To test the newly trained classifer you can make changes to the already existing 
+<a href="https://github.com/SamdenLepcha/Pothole-Detection-With-Mask-R-CNN/blob/master/place_in_object_detection/object_detection_tutorial.ipynb" target="_blank" rel="noopener">object_detection.ipynb</a> file present in my Github Repo.</p>
+<p>Change the directory location for the labelmap, inference_graph, .config file and the test_images directory based on your location. You should get the following output:</p>
+<figure>
+  <img src="index_files/final_output.jpeg" width="1440">
+  <center>Output of Test Image (Image by Author).</center>
+</figure> 
+
+
+
+
+<h3 id="deploying-with-flask">Deploying with Flask
+  <a href="#deploying-with-flask"><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0h24v24H0z" fill="currentColor"></path>
+      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"></path>
+    </svg></a>
+</h3>
+<p>Flask is a micro web framework written in Python developed by Armin Ronacher. We are going to use Flask to deploy our custom trained object detection model. You can find the beginner tutorial on their 
+<a href="https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application" target="_blank" rel="noopener">official documentation</a>.</p>
+<p>We are going to be using the code present in the object_detection.ipynb file in our Flask app. The code is called “app.py” which is also present in my Github repository. In the beginning our app.py file we import our libraries and append our Python Path where the object detection api is located. Change this according to the location you have placed this file.</p>
+<p>The simple architecture of the Flask App can be described using the image below.</p>
+<figure>
+  <img src="index_files/flow-diagram.png" width="1440">
+  <center>Flask Web-app Architecture (Image by Author).</center>
+</figure> 
+<p>We take the image as input to the Custom Trained Mask RCNN model which based on the accuracy score then decides whether to give the coordinates or not. You can run the “app.py” by running the below command.</p>
+<pre tabindex="0"><code>python app.py
+</code></pre><figure>
+  <img src="index_files/output-flask.jpeg" width="1440">
+  <center>Output of the flask app on the command prompt (Image by Author).</center>
+</figure> 
+<p>After running the above command we should get the below output. Copy this onto your browser for the web application to render the HTML pages. I have made a terrible job of this. You guys can create better interfaces or a better UI for this project by messing around with the HTML and CSS files. You can find all the output images below in the results section.</p>
+
+
+
+
+<h3 id="results">Results
+  <a href="#results"><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0h24v24H0z" fill="currentColor"></path>
+      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"></path>
+    </svg></a>
+</h3>
+<p>This section just contains the various output images of the project.</p>
+<ul>
+<li>This is the first page after copying the URL from Anaconda Prompt onto your browser of your choice.</li>
+</ul>
+<figure>
+  <img src="index_files/home-page.jpeg" width="1440">
+  <center>Webapp Home Page (Image by Author).</center>
+</figure> 
+<ul>
+<li>This is the page after selecting and uploading an image of your choice.</li>
+</ul>
+<figure>
+  <img src="index_files/after-loading.jpeg" width="1440">
+  <center>Webapp After Loading (Image by Author).</center>
+</figure>
+<ul>
+<li>This is the page after clicking on the submit button. Notice how the button below appears only when the score is above is 50%.</li>
+</ul>
+<figure>
+  <img src="index_files/after-prediction.jpeg" width="1440">
+  <center>Output After Model Prediction (Image by Author).</center>
+</figure>
+<p>After clicking on the button below the output result that states to get the current position. I have zoomed out the map quite a bit to not reveal my location but you can get really precise and zoomed in coordinates. You can try to set up an architecture where you maintain a location database online so that the page can display those coordinates but for the purpose of this project we are just displaying the current location where the image was uploaded. So the image has to be taken and uploaded at the same spot.</p>
+<figure>
+  <img src="index_files/output-googlemaps.jpeg" width="1440">
+  <center>Output of the Final Google Maps Feature (Image by Author).</center>
+</figure>
+<p>Thank you for reading to the end of this article. That is it for this tutorial. I hope you liked this article and that it helps in your Data Science journey. You can find more such articles on the blog section of my website.</p>
+
+
+
+
+<h3 id="references">References
+  <a href="#references"><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0h24v24H0z" fill="currentColor"></path>
+      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"></path>
+    </svg></a>
+</h3>
+<ol>
+<li>Over 9300 deaths, 25000 injured in 3 years due to potholes — 
+<a href="https://www.indiatoday.in/india/story/over-9300-deaths-25000-injured-in-3-years-due-to-potholes-1294147-2018-07-24" target="_blank" rel="noopener">India Today</a></li>
+<li>Nienaber, S &amp; Booysen, M.J. (Thinus) &amp; Kroon, RS. (2015). 
+<a href="https://www.researchgate.net/publication/282807920_Dataset_of_images_used_for_pothole_detection" target="_blank" rel="noopener">Dataset of images used for pothole detection. 10.13140/RG.2.1.3646.1520</a></li>
+<li>How To Train an Object Detection Classifier for Multiple Objects Using TensorFlow (GPU) on Windows 10 — 
+<a href="https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10" target="_blank" rel="noopener">Github</a></li>
+<li>Custom Mask RCNN using Tensorflow Object Detection API — 
+<a href="https://medium.com/@vijendra1125/custom-mask-rcnn-using-tensorflow-object-detection-api-101149ce0765" target="_blank" rel="noopener">Medium</a></li>
+<li>Train a Mask R-CNN model with the Tensorflow Object Detection API — 
+<a href="https://gilberttanner.com/blog/train-a-mask-r-cnn-model-with-the-tensorflow-object-detection-api/" target="_blank" rel="noopener">Gilbert Tanner</a></li>
+<li>HTML Geolocation API — 
+<a href="https://www.w3schools.com/html/html5_geolocation.asp" target="_blank" rel="noopener">w3schools</a></li>
+</ol>
+
+        
+        <details closed class="f6 fw7 input-reset">
+  <dl class="f6 lh-copy">
+    <dt class="fw7">Posted on:</dt>
+    <dd class="fw5 ml0">July 1, 2019</dd>
+  </dl>
+  <dl class="f6 lh-copy">
+    <dt class="fw7">Length:</dt>
+    <dd class="fw5 ml0">11 minute read, 2290 words</dd>
+  </dl>
+  
+  <dl class="f6 lh-copy">
+    <dt class="fw7">Categories:</dt>
+    <dd class="fw5 ml0"> <a href="https://samdenlepcha.github.io/categories/data-science">Data Science</a>  <a href="https://samdenlepcha.github.io/categories/computer-vision">Computer Vision</a> </dd>
+  </dl>
+  
+  
+  
+  <dl class="f6 lh-copy">
+    <dt class="fw7">Tags:</dt>
+    <dd class="fw5 ml0"> <a href="https://samdenlepcha.github.io/tags/flask">Flask</a>  <a href="https://samdenlepcha.github.io/tags/tensorflow">TensorFlow</a>  <a href="https://samdenlepcha.github.io/tags/python">Python</a> </dd>
+  </dl>
+  
+  <dl class="f6 lh-copy">
+    <dt class="fw7">See Also:</dt>
+    
+    <dd class="fw5 ml0"><a href="/blog/mlds-journey/">Journey Into Winning My First Data Science Hackathon</a></dd>
+    
+    <dd class="fw5 ml0"><a href="/project/pothole/">Smart City Enabler</a></dd>
+    
+    <dd class="fw5 ml0"><a href="/project/speeql/">SpeeQL</a></dd>
+    
+  </dl>
+</details>
+
+      </section>
+      <footer class="post-footer">
+        <div class="post-pagination dt w-100 mt4 mb2">
+  
+  
+    <a class="prev dtc pr2 tl v-top fw6"
+    href="https://samdenlepcha.github.io/blog/mlds-journey/">&larr; Journey Into Winning My First Data Science Hackathon</a>
+  
+  
+  
+</div>
+
+      </footer>
+    </article>
+    
+      
+<div class="post-comments pa0 pa4-l mt4">
+  
+  <script src="https://utteranc.es/client.js"
+          repo="SamdenLepcha/samdenlepcha@github.io"
+          issue-term="pathname"
+          theme="boxy-light"
+          label="comments :crystal_ball:"
+          crossorigin="anonymous"
+          async
+          type="text/javascript">
+  </script>
+  
+</div>
+
+    
+  </section>
+</main>
+<footer class="site-footer pv4 bt b--transparent ph5" role="contentinfo">
+  <nav class="db dt-l w-100">
+    <p class="site-copyright f7 db dtc-l v-mid w-100 w-33-l tc tl-l pv2 pv0-l mv0 lh-copy">
+      &copy; 2022 RStudio, Anywhere
+      <span class="middot-divider"></span>
+      Made with <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/hugo-apero/" rel="dct:source">Hugo Apéro</a></span>.
+      <br />
+      
+Based on <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/formspree/blogophonic-hugo" rel="dct:source">Blogophonic</a></span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://formspree.io" property="cc:attributionName" rel="cc:attributionURL">Formspree</a>.
+    </p>
+    
+    <div class="site-social-links db dtc-l v-mid w-100 w-33-l tc pv2 pv0-l mv0">
+      <div class="social-icon-links" aria-hidden="true">
+  
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <a class="link dib h1 w1 ml0 mr2 f6 o-90 glow" href="https://github.com/SamdenLepcha" title="github" target="_blank" rel="noopener">
+      <i class="fab fa-github fa-lg fa-fw"></i>
+    </a>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <a class="link dib h1 w1 ml0 mr2 f6 o-90 glow" href="https://www.instagram.com/sam.lepcha" title="instagram" target="_blank" rel="noopener">
+      <i class="fab fa-instagram fa-lg fa-fw"></i>
+    </a>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <a class="link dib h1 w1 ml0 mr2 f6 o-90 glow" href="https://twitter.com/Samden_Lepcha" title="twitter" target="_blank" rel="noopener">
+      <i class="fab fa-twitter fa-lg fa-fw"></i>
+    </a>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <a class="link dib h1 w1 ml0 mr2 f6 o-90 glow" href="https://www.linkedin.com/in/samdenlepcha/" title="linkedin-in" target="_blank" rel="noopener">
+      <i class="fab fa-linkedin-in fa-lg fa-fw"></i>
+    </a>
+  
+</div>
+
+    </div>
+    
+    <div class="site-links f6 db dtc-l v-mid w-100 w-67-l tc tr-l pv2 pv0-l mv0">
+      
+      <a class="dib pv1 ph2 link" href="/license/" title="License">License</a>
+      
+    </div>
+  </nav>
+  
+    <script>
+
+    var i, text, code, codes = document.getElementsByTagName('code');
+    for (let i = 0; i < codes.length;) {
+      code = codes[i];
+      if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+        text = code.textContent;
+        if (/^\$[^$]/.test(text) && /[^$]\$$/.test(text)) {
+          text = text.replace(/^\$/, '\\(').replace(/\$$/, '\\)');
+          code.textContent = text;
+        }
+        if (/^\\\((.|\s)+\\\)$/.test(text) ||
+            /^\\\[(.|\s)+\\\]$/.test(text) ||
+            /^\$(.|\s)+\$$/.test(text) ||
+            /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+          code.outerHTML = code.innerHTML;  
+          continue;
+        }
+      }
+      i++;
+    }
+</script>
+
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+
+    
+  
+  
+</footer>
+
+      </div>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Samden Lepcha</title>
+    <link>https://samdenlepcha.github.io/</link>
+    <description>Recent content on Samden Lepcha</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 30 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://samdenlepcha.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Journey Into Winning My First Data Science Hackathon</title>
+      <link>https://samdenlepcha.github.io/blog/mlds-journey/</link>
+      <pubDate>Tue, 30 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://samdenlepcha.github.io/blog/mlds-journey/</guid>
+      <description>Introduction In this article, I will be talking about my journey from knowing next to nothing about Data Science to winning a Data Science Hackathon 6 months later. This is just my journey and I am not really recommending this as a path to follow. Everyone has their own circumstances so it’s more important that you start and continue to work towards your goals and most importantly that you enjoy the process.</description>
+    </item>
+    
+    <item>
+      <title>Smart City Enabler</title>
+      <link>https://samdenlepcha.github.io/project/pothole/</link>
+      <pubDate>Sat, 01 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://samdenlepcha.github.io/project/pothole/</guid>
+      <description>About It is a web-app to detect potholes in images and map the co-ordinates onto Google Maps. This project involved labeling images, training and deploying a custom object detection model using Mask RCNN. Technologies used: Flask, Google JavaScript API, Python, HTML, CSS and TensorFlow.</description>
+    </item>
+    
+    <item>
+      <title>SpeeQL</title>
+      <link>https://samdenlepcha.github.io/project/speeql/</link>
+      <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://samdenlepcha.github.io/project/speeql/</guid>
+      <description>What is SpeeQL? SpeeQL is an interactive screen-based self-help kiosk system, which can take speech, text or images as input and make your shopping experience at stores much better. This project uses Automatic Speech Recognition, NER, and Image Classification together with OCR to build a smart in-store touch-free shopping assistant for brick and mortar stores. It also consists of a Q&amp;amp;A system developed using transformers and a recommendation system. Was later adopted by P&amp;amp;G to deploy on scale.</description>
+    </item>
+    
+    <item>
+      <title>Fatigue Detection with Deep Learning</title>
+      <link>https://samdenlepcha.github.io/project/fatigue-detection/</link>
+      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://samdenlepcha.github.io/project/fatigue-detection/</guid>
+      <description>About A web-app that detects the fatigue level of a person and provides them with suggestions based on the fatigue levels. This project involves labeling images, training and deploying an Inception V2 model with faster RCNN to crop out various facial cues and Efficient Net to classify the level of fatigue in a user. Build a novel dataset for the same. Technologies used: Flask, Python, HTML CSS and TensorFlow.</description>
+    </item>
+    
+    <item>
+      <title>Train a Custom Object Detection Model using Mask RCNN</title>
+      <link>https://samdenlepcha.github.io/blog/pothole-detection/</link>
+      <pubDate>Mon, 01 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://samdenlepcha.github.io/blog/pothole-detection/</guid>
+      <description>A complete guide from installation and training to deploying a custom trained object detection model in a webapp.
+Background According to Wikipedia “A pothole is a depression in a road surface, usually asphalt pavement, where traffic has removed broken pieces of the pavement”. Edmonton the “self proclaimed pothole capital” in Alberta, Canada reportedly spends $4.8 million on 450,000 potholes annually, as of 2015. In India every year approximately 1100 lives are lost to accidents caused by potholes source.</description>
+    </item>
+    
+    <item>
+      <title>Connect with Me</title>
+      <link>https://samdenlepcha.github.io/contact/</link>
+      <pubDate>Mon, 25 Feb 2019 13:38:41 -0600</pubDate>
+      
+      <guid>https://samdenlepcha.github.io/contact/</guid>
+      <description>** Contact page don&amp;rsquo;t contain a body, just the front matter above. See form.html in the layouts folder.
+Formspree requires a (free) account and new form to be set up. The link is made on the final published url in the field: Restrict to Domain. It is possible to register up to 2 emails free and you can select which one you want the forms to go to within Formspree in the Settings tab.</description>
+    </item>
+    
+    <item>
+      <title>License</title>
+      <link>https://samdenlepcha.github.io/license/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://samdenlepcha.github.io/license/</guid>
+      <description>My blog posts are released under a Creative Commons Attribution-ShareAlike 4.0 International License.</description>
+    </item>
+    
+  </channel>
+</rss>

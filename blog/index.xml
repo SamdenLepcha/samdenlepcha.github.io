@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on Samden Lepcha</title>
+    <link>https://samdenlepcha.github.io/blog/</link>
+    <description>Recent content in Blog on Samden Lepcha</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 30 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://samdenlepcha.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Journey Into Winning My First Data Science Hackathon</title>
+      <link>https://samdenlepcha.github.io/blog/mlds-journey/</link>
+      <pubDate>Tue, 30 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://samdenlepcha.github.io/blog/mlds-journey/</guid>
+      <description>Introduction In this article, I will be talking about my journey from knowing next to nothing about Data Science to winning a Data Science Hackathon 6 months later. This is just my journey and I am not really recommending this as a path to follow. Everyone has their own circumstances so it’s more important that you start and continue to work towards your goals and most importantly that you enjoy the process.</description>
+    </item>
+    
+    <item>
+      <title>Train a Custom Object Detection Model using Mask RCNN</title>
+      <link>https://samdenlepcha.github.io/blog/pothole-detection/</link>
+      <pubDate>Mon, 01 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://samdenlepcha.github.io/blog/pothole-detection/</guid>
+      <description>A complete guide from installation and training to deploying a custom trained object detection model in a webapp.
+Background According to Wikipedia “A pothole is a depression in a road surface, usually asphalt pavement, where traffic has removed broken pieces of the pavement”. Edmonton the “self proclaimed pothole capital” in Alberta, Canada reportedly spends $4.8 million on 450,000 potholes annually, as of 2015. In India every year approximately 1100 lives are lost to accidents caused by potholes source.</description>
+    </item>
+    
+  </channel>
+</rss>
