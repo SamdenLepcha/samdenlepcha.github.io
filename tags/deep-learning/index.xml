@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deep Learning on Samden Lepcha</title>
+    <link>https://samdenlepcha.github.io/tags/deep-learning/</link>
+    <description>Recent content in Deep Learning on Samden Lepcha</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 01 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://samdenlepcha.github.io/tags/deep-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DeToxy</title>
+      <link>https://samdenlepcha.github.io/project/detoxy/</link>
+      <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://samdenlepcha.github.io/project/detoxy/</guid>
+      <description>Abstract Toxic speech, also known as hate speech, is regarded as one of the crucial issues plaguing online social media today. Most recent work on toxic speech detection is constrained to the modality of text and written conversations with very limited work on toxicity detection from spoken utterances or using the modality of speech. In this paper, we introduce a new dataset DeToxy, the first publicly available toxicity annotated dataset for the En- glish language.</description>
+    </item>
+    
+  </channel>
+</rss>
