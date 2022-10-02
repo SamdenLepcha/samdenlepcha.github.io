@@ -2,44 +2,44 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Portfolio on Samden Lepcha</title>
-    <link>https://samdenlepcha.github.io/project/</link>
+    <link>https://samdenlepcha.github.io/portfolio/</link>
     <description>Recent content in Portfolio on Samden Lepcha</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 01 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://samdenlepcha.github.io/project/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 01 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://samdenlepcha.github.io/portfolio/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>DeToxy</title>
-      <link>https://samdenlepcha.github.io/project/detoxy/</link>
+      <link>https://samdenlepcha.github.io/portfolio/detoxy/</link>
       <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://samdenlepcha.github.io/project/detoxy/</guid>
+      <guid>https://samdenlepcha.github.io/portfolio/detoxy/</guid>
       <description>Abstract Toxic speech, also known as hate speech, is regarded as one of the crucial issues plaguing online social media today. Most recent work on toxic speech detection is constrained to the modality of text and written conversations with very limited work on toxicity detection from spoken utterances or using the modality of speech. In this paper, we introduce a new dataset DeToxy, the first publicly available toxicity annotated dataset for the En- glish language.</description>
     </item>
     
     <item>
       <title>Smart City Enabler</title>
-      <link>https://samdenlepcha.github.io/project/pothole/</link>
+      <link>https://samdenlepcha.github.io/portfolio/pothole/</link>
       <pubDate>Sat, 01 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://samdenlepcha.github.io/project/pothole/</guid>
+      <guid>https://samdenlepcha.github.io/portfolio/pothole/</guid>
       <description>About It is a web-app to detect potholes in images and map the co-ordinates onto Google Maps. This project involved labeling images, training and deploying a custom object detection model using Mask RCNN. Technologies used: Flask, Google JavaScript API, Python, HTML, CSS and TensorFlow.</description>
     </item>
     
     <item>
       <title>SpeeQL</title>
-      <link>https://samdenlepcha.github.io/project/speeql/</link>
+      <link>https://samdenlepcha.github.io/portfolio/speeql/</link>
       <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://samdenlepcha.github.io/project/speeql/</guid>
+      <guid>https://samdenlepcha.github.io/portfolio/speeql/</guid>
       <description>What is SpeeQL? SpeeQL is an interactive screen-based self-help kiosk system, which can take speech, text or images as input and make your shopping experience at stores much better. This project uses Automatic Speech Recognition, NER, and Image Classification together with OCR to build a smart in-store touch-free shopping assistant for brick and mortar stores. It also consists of a Q&amp;amp;A system developed using transformers and a recommendation system. Was later adopted by P&amp;amp;G to deploy on scale.</description>
     </item>
     
     <item>
       <title>Fatigue Detection with Deep Learning</title>
-      <link>https://samdenlepcha.github.io/project/fatigue-detection/</link>
+      <link>https://samdenlepcha.github.io/portfolio/fatigue-detection/</link>
       <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://samdenlepcha.github.io/project/fatigue-detection/</guid>
+      <guid>https://samdenlepcha.github.io/portfolio/fatigue-detection/</guid>
       <description>About A web-app that detects the fatigue level of a person and provides them with suggestions based on the fatigue levels. This project involves labeling images, training and deploying an Inception V2 model with faster RCNN to crop out various facial cues and Efficient Net to classify the level of fatigue in a user. Build a novel dataset for the same. Technologies used: Flask, Python, HTML CSS and TensorFlow.</description>
     </item>
     
